@@ -29,9 +29,7 @@ class NanoXmlPushParserTest {
             ),
             eventList
         )
-
     }
-
 
     @Test
     fun `Various cases`() {
@@ -100,6 +98,28 @@ class NanoXmlPushParserTest {
             eventList
         )
 
+    }
+
+    /**
+     * Not a real test, but a usage sample.
+     */
+    @Test
+    fun `Print events`() {
+        val parser = newKNanoXmlPushParser()
+        parser.parse(
+            """
+            Hello, World! <BOLD>This text is bold</BOLD>. This is a <LINK ID="test_000">a link</LINK>.
+            
+            This is a <STUFF ATTR1="attribute 1" ATTR2="attribute 2" ATTR3="attribute 3">a link with <I>more</I> attributes</STUFF>.
+            """.trimIndent()
+        ) { event ->
+            println("range=${event.range} depth=${event.depth}")
+            when (event) {
+                is TagStartEvent -> println("name=${event.name} attributes=${event.attributes}")
+                is TagEndEvent -> println("name=${event.name}")
+                is ContentEvent -> println("content=${event.content}")
+            }
+        }
     }
 
     private fun parse(input: String): MutableList<Event> {
