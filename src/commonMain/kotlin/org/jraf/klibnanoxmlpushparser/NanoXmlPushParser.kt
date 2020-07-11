@@ -16,7 +16,7 @@ sealed class Event {
 data class ContentEvent(
     override val range: IntRange,
     override val depth: Int,
-    val content: String
+    val content: CharSequence
 ) : Event()
 
 data class TagStartEvent(
